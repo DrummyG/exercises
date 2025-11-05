@@ -120,7 +120,7 @@ describe('filterObject', () => {
     })
   })
 })
-/*
+
 describe('getCachedValue', () => {
   it('Caches the value correctly', () => {
     const cache = {}
@@ -138,7 +138,7 @@ describe('getCachedValue', () => {
     expect(getUserValue).toHaveBeenCalledTimes(1)
   })
 })
-
+/*
 describe('arrayToObject', () => {
   it('Converts a two-dimensional array into an object', () => {
     const array = [
