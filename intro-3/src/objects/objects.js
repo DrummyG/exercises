@@ -75,7 +75,14 @@ export function arrayToObjectDeep(array) {
 // restituire true se almeno una delle proprietà dell'oggetto soddisfa la funzione `predicate`.
 // Es.: { name: 'Mary', age: 99, children: 4 } con predicate = (key, value) => value > 10
 // restituisce true perché è presente una proprietà maggiore di 10 (age)
-export function hasValidProperty(object, predicate) {}
+export function hasValidProperty(object, predicate) {
+    let check = false;
+    const array = Object.entries(object);
+    array.forEach(element => {
+        if(predicate(element[0], element[1])) check = true; 
+    })
+    return check;
+}
 
 // Dato un oggetto, estrarre tutti i valori che sono a loro volta oggetti in un oggetto separato, usando come chiave il loro id;
 // rimuovere la chiave nell'oggetto di partenza e sostituirla con `{nome_chiave}Id` e usare come valore l'id dell'oggetto estratto.
@@ -83,7 +90,9 @@ export function hasValidProperty(object, predicate) {}
 // { id: 1, name: 'John', carId: 33 } e l'altro { 33: { id: 33, manufacturer: 'Ford' } }
 // Restituire un array con i due oggetti (vedere il test per altri esempi)
 // Idealmente dovrebbe funzionare per ogni oggetto trovato dentro l'oggetto di partenza, anche quelli annidati
-export function normalizeObject(object) {}
+export function normalizeObject(object) {
+    
+}
 
 // Dato un tree del tipo
 // 1.       A

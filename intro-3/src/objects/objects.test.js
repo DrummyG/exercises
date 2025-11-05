@@ -188,7 +188,7 @@ describe('arrayToObjectDeep', () => {
     expect(arrayToObjectDeep(array)).toEqual(result)
   })
 })
-/*
+
 describe('hasValidProperty', () => {
   const object = {
     name: 'Jane',
@@ -305,7 +305,7 @@ describe('normalizeObject', () => {
     expect(normalizeObject(object)).toEqual(result)
   })
 })
-
+/*
 const tree = {
   value: 'A',
   children: [
