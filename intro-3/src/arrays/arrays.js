@@ -3,25 +3,39 @@ export function cloneArray(array) {
     return array.map(value => {
         return value;
     })
+
+    // return [...array];
+
+    // return JSON.parse(JSON.stringify(array));
 }
 
 // Inserire l'elemento alla fine
 export function addToArrayEnd(array, newElement) {
     array.push(newElement);
     return array;
+
+    // return [...array, newElement];
 }
 
 // Inserire l'elemento all'inizio
 export function addToArrayBeginning(array, newElement) {
     array.unshift(newElement);
     return array;
+
+    // return [newElement, ...array];
 }
 
 // Inserire l'elemento all'indice specificato
 // Se l'indice è negativo, inserirlo all'inizio dell'array
 // Se l'indice è superiore alla lunghezza dell'array, inserirlo alla fine
 export function insertIntoArray(array, newElement, index) {
-    index < 0 ? array.unshift(newElement) : index > array.length ? array.push(newElement) : array.splice(index, 0, newElement);
+    if(index < 0){
+        array.unshift(newElement)
+    }else if(index > array.length){
+        array.push(newElement)
+    }else{
+        array.splice(index, 0, newElement);
+    }
     return array;
 }
 
@@ -31,8 +45,8 @@ export function insertIntoArray(array, newElement, index) {
 // nel secondo caso il primo elemento che ha name uguale ad Anna
 // Restituire null se non viene trovato nulla
 export function findBy(array, condition) {
+    const key = Object.keys(condition)[0];
     return array.find(element => {
-        const key = Object.keys(condition)[0]
         return element[key] === condition[key]
     }) || null;
 }
@@ -41,7 +55,6 @@ export function findBy(array, condition) {
 // Se per nessun elemento risulta vera, restituire un array vuoto
 export function filterBy(array, condition) {
      const key = Object.keys(condition)[0];
-
     return array.filter(element => {
         return element[key] === condition[key]
     }) || [];
@@ -64,14 +77,13 @@ export function removeFromArray(array, index) {
 
 // Dati 2 o più array, unirli in un unico array
 export function mergeArrays(...arrays) {
-    const merged = [].concat(...arrays);
-    return merged;
+    return [].concat(...arrays);
 }
 
 // Dati 2 o più array, unirli in un unico array, ma rimuovere eventuali duplicati
-export function mergeArraysUnique(...arrays) {
+export function mergeArraysUnique(...arrays) {  //prova usando set
   const merged = [].concat(...arrays);
-  return merged.filter((item, index) => merged.indexOf(item) === index);
+  return Array.from(new Set(merged));
 }
 
 // Dato un array di oggetti, una chiave e una direzione (ASC | DESC), ordinare l'array in base ai valori della chiave specificata
@@ -135,11 +147,7 @@ export function removeProperties(array, properties) {
 // L'array originale e i suoi elementi non devono essere modificati
 export function setSelected(array, selectedIds) {
     return array.map(element => {
-        const changed = {...element};
-        selectedIds.forEach(id => {
-            changed.id === id ? changed.selected = true : changed;
-        })
-        return changed;
+        return selectedIds.includes(element.id) ?  {...element, selected : true} : element;
     })
 }
 
@@ -157,12 +165,7 @@ export function mapTo(array, key) {
 // Es.: [{ id: 1, age: 32 }, { id: 2, age: 29 }] con predicate = (item) => item.age > 30,
 // `areItemsValid` restituisce false perché non tutti gli elementi hanno `age` maggiore di 30
 export function areItemsValid(array, predicate) {
-    const check = array.map(element => predicate(element))
-    let checker = true;
-    check.forEach(bool => {
-        if( bool === false) checker = false;
-    })
-    return checker === true ? true : false;
+    return array.every(predicate);
 }
 
 // Dato un array di stringhe, un array di oggetti e una chiave, restituire un nuovo array
@@ -182,18 +185,18 @@ export function populate(array, dataArray, key) {
 // calcolare il prezzo finale dei prodotti con l'eventuale sconto applicato,
 // considerando che ai prodotti con special = true si applica la percentuale specificata in discount.special,
 // agli altri prodotti la percentuale specificata in discounts.default
-export function getTotal(products, discounts) {
-    let total = 0;
-    products.forEach(item => {
-        if(item.special !== undefined && discounts.special !== undefined){
-            total += (item.price * (100 - discounts.special) / 100) * item.quantity;
+export function getTotal(products, discounts) { 
+    const sum = (a, b) => {
+        if(b.special !== undefined && discounts.special !== undefined){
+            return a + (b.price * (100 - discounts.special) / 100) * b.quantity;
         }else if(discounts.default !== undefined){
-            total += (item.price * (100 - discounts.default) / 100) * item.quantity;
+            return a + (b.price * (100 - discounts.default) / 100) * b.quantity;
         }else{
-            total += item.price * item.quantity;
+           return a + b.price * b.quantity;
         }
-    })
-    return total;
+    }
+
+    return products.reduce(sum, 0);
 }
 
 // Dati un array di post, di commenti e di utenti (vedere in mock.js), creare un nuovo array dove ogni post include:
@@ -202,7 +205,7 @@ export function getTotal(products, discounts) {
 // Dentro ogni commento deve esserci un campo `user` con l'oggetto intero dell'utente che ha scritto il commento (corrispondente a `userId`, che va poi rimosso)
 // Se non ci sono commenti, comments deve essere un array vuoto
 // Controllare il risultato del test per vedere come deve essere l'array finale
-export function populatePosts(posts, comments, users) {
+export function populatePosts(posts, comments, users) { //usa la spread
     let mapped = [];
     posts.forEach((post, index) => {
         mapped[index] = post;
@@ -216,18 +219,6 @@ export function populatePosts(posts, comments, users) {
         })
     })
     return mapped;
-
-    // const mapped = posts.map(post => {
-    //     const postUser = users.find(user => user.id === post.userId);
-    //     const postComments = comments.filter(comment => comment.postId === post.id).map(comment => {
-    //         const commentUser = users.find(user => user.id === comment.userId);
-    //         const { userId, postId, ...commentWithoutIds } = comment;
-    //         return { ...commentWithoutIds, user: commentUser };
-    //     });
-    //     const { userId, ...postWithoutUserId } = post;
-    //     return { ...postWithoutUserId, user: postUser, comments: postComments };
-    // })
-    // return mapped;
 }
 
 // Implementare il metodo nativo Array.map()
@@ -248,33 +239,35 @@ export function filter(array, predicate) {
 
 // Implementare il metodo nativo Array.some()
 export function some(array, predicate) {
-    let check = false;
-    array.forEach((element, index) => {
-        if(predicate(element, index) === true) check = true});
-    return check;    
+    for(let i = 0; i < array.length; i++){
+        if(predicate(array[i], i) === true) return true;
+    }
+    return false;    
 }
 
 // Implementare il metodo nativo Array.every()
-export function every(array, predicate) {
-    let check = true;
-    array.forEach((element, index) => {
-        if(predicate(element, index) === false) check = false});
-    return check;    
+export function every(array, predicate) { //utilizza il ciclo for
+    for(let i = 0; i < array.length; i++){
+        if(predicate(array[i], i) === false) return false;
+    }
+    return true;    
 }
 
 // Implementare il metodo nativo Array.reduce()
-export function reduce(array, reducer, initialState) {
+export function reduce(array, reducer, initialState) { //rivedere
     let accumulator = initialState;
-    if(accumulator === undefined && typeof(array[0]) === 'number') accumulator = 1;
-    if(accumulator === undefined && typeof(array[0]) === 'object') accumulator = {};
-    if(accumulator === undefined && typeof(array[0]) === 'string'){
+    let startIndex = 0;
+
+    if (accumulator === undefined) {
         accumulator = array[0];
-        array.forEach((element, index) => {if(index !== 0) accumulator = reducer(accumulator, element, index)});
-        return accumulator; 
+        startIndex = 1;
     }
-    
-    array.forEach((element, index) => {accumulator = reducer(accumulator, element, index)});
-    return accumulator; 
+
+    for (let i = startIndex; i < array.length; i++) {
+        accumulator = reducer(accumulator, array[i], i);
+    }
+
+    return accumulator;     
     
 }
 

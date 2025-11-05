@@ -354,7 +354,7 @@ describe('countTreeLeafNodes', () => {
     expect(countTreeLeafNodes(tree)).toEqual(14)
   })
 })
-/*
+
 describe('get', () => {
   const object = {
     name: 'Maria',
@@ -422,7 +422,7 @@ describe('createGeoJSON', () => {
     expect(createGeoJSON(input)).toEqual(geoJSON)
   })
 })
-
+/*
 describe('highlightActiveFeatures', () => {
   const input = [
     ['point', [2, 1]],

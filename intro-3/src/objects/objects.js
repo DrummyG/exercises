@@ -78,10 +78,10 @@ export function arrayToObjectDeep(array) {
 export function hasValidProperty(object, predicate) {
     let check = false;
     const array = Object.entries(object);
-    array.forEach(element => {
-        if(predicate(element[0], element[1])) check = true; 
-    })
-    return check;
+    for(let i = 0; i < array.length; i++){
+        if(predicate(array[i][0], array[i][1])) return true; 
+    }
+    return false;
 }
 
 // Dato un oggetto, estrarre tutti i valori che sono a loro volta oggetti in un oggetto separato, usando come chiave il loro id;
@@ -147,13 +147,58 @@ export function countTreeLeafNodes(tree) {
 // specificando un numero come indice. Se la proprietà non esiste restituire fallback o undefined.
 // Es. 1: { address: { city: 'New York' } } e 'address.city' restituisce 'New York'
 // Es. 2: { movies: ['Shrek', 'Shrek 2'] } e 'movies.1' restituisce 'Shrek 2'
-export function get(object, path, fallback) {}
+export function get(object, path, fallback) {
+    const keys = path.split('.');
+    let result = object;
+
+    for (let key of keys) {
+        if (result[key] === undefined) {
+            return fallback;
+        }
+        result = result[key];
+    }
+
+    return result;
+}
 
 // Dato un oggetto con una struttura non uniforme contentente informazioni geografiche
 // su strade e punti di interesse, generare un oggetto GeoJSON (RFC 7946) valido.
 // NOTA: per avere un'idea dell'input vedere il test corrispondente,
 // per il GeoJSON finale da generare vedere il file `mock.js`.
-export function createGeoJSON(data) {}
+export function createGeoJSON(data) {
+    const array = Object.entries(data);
+    let geoJson = {
+        type : 'FeatureCollection',
+        features: []
+    };
+    array.forEach(element => {
+        let geometryData, propertiesData;
+        if(element[0] === 'pointsOfInterest'){
+            element[1].forEach(place => {
+                geometryData = {type : 'Point', coordinates : Object.values(place.coordinates)};
+                propertiesData = {name : place.name};
+            })
+        }else{
+            console.log(element)
+            element[1].forEach(place=> {
+                const coordinate = JSON.parse(JSON.stringify(place.polyline));
+                console.log(coordinate);
+                let parsing = [];
+                coordinate.forEach(c => {
+
+                })
+                geometryData = {type : 'LineString', coordinates : []};
+                propertiesData = {...place.extraProps, name : place.name};
+            })
+        }
+        geoJson.features.push({type: 'Feature', geometry: geometryData, properties : propertiesData})
+        
+    })
+    geoJson.features.forEach(geo => console.log('elemento singolo' + geo));
+    console.log(geoJson);
+    return geoJson;
+
+}
 
 // Dati un array contentente le coordinate [lng, lat] di alcune geometrie (linee e punti),
 // e un punto con coordinate [lng, lat], stabilire se il punto interseca una o più geometrie del primo array.

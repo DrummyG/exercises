@@ -28,7 +28,7 @@ import {
   moveToEnd
 } from './arrays'
 import { usersSimple, products, posts, comments, users } from '../mock'
-/*
+
 describe('cloneArray', () => {
   it('Clones a simple array making a separate copy', () => {
     const array = [1, 2, 3]
@@ -342,7 +342,7 @@ describe('setSelected', () => {
     ])
   })
 })
-
+/*
 describe('mapTo', () => {
   it('Maps the array using the specified key', () => {
     expect(mapTo(usersSimple, 'name')).toEqual([
@@ -380,7 +380,7 @@ describe('populate', () => {
     ])
   })
 })
-
+*/
 describe('getTotal', () => {
   it('Gets the correct total price with both discounts', () => {
     expect(getTotal(products, { default: 5, special: 10 })).toEqual(1403.4)
@@ -624,4 +624,3 @@ describe('moveToEnd', () => {
     ).toEqual(expected)
   })
 })
-*/
