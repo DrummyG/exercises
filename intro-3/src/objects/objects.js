@@ -1,19 +1,30 @@
 import booleanIntersects from '@turf/boolean-intersects'
 
 // Clonare l'oggetto
-export function cloneObject(object) {}
+export function cloneObject(object) {
+    return {...object};
+}
 
 // Unire i due oggetti in un unico, senza modificare gli oggetti originali
-export function mergeObjects(object1, object2) {}
+export function mergeObjects(object1, object2) {
+    return {...object1, ...object2};
+}
 
 // Dato un oggetto e un array con chiave-valore, aggiungere chiave-valore all'oggetto
 // senza modificare l'originale, ma restituendo una copia
-export function setProperty(object, [key, value]) {}
+export function setProperty(object, [key, value]) {
+    return {...object, [key] : value};
+}
 
 // Convertire un oggetto contentene altri oggetti in array
 // La chiave di ciascun oggetto va inserita nell'oggetto stesso come `key`
 // Es.: { a: { name: 'X' }, b: { name: 'Y' } } diventa [{ key: 'a', name: 'X' }, b: { key: 'b', name: 'Y' }]
-export function toArray(object) {}
+export function toArray(object) {
+    const entries = Object.entries(object);
+    return entries.map(entry => {
+        return {key : entry[0], ...entry[1]}
+    })
+}
 
 // Dato un oggetto, restituire un nuovo oggetto mantenendo
 // soltanto le chiavi i cui valori soddisfano la funzione `predicate` (a cui bisogna passare sia la chiave, sia il valore)

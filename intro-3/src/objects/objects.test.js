@@ -17,7 +17,7 @@ import {
   highlightActiveFeatures,
   getLineFromVTT
 } from './objects'
-/*
+
 describe('cloneObject', () => {
   it('Clones a simple object making a separate copy', () => {
     const object = { name: 'John', age: 33, address: '5th Avenue' }
@@ -73,7 +73,7 @@ describe('toArray', () => {
     ])
   })
 })
-
+/*
 describe('filterObject', () => {
   it('Filters an object - 1', () => {
     const object = {
