@@ -138,7 +138,7 @@ describe('getCachedValue', () => {
     expect(getUserValue).toHaveBeenCalledTimes(1)
   })
 })
-/*
+
 describe('arrayToObject', () => {
   it('Converts a two-dimensional array into an object', () => {
     const array = [
@@ -155,7 +155,7 @@ describe('arrayToObject', () => {
     })
   })
 })
-
+/*
 describe('arrayToObjectDeep', () => {
   it('Converts a n-dimensional array into an object, deeply', () => {
     const array = [
