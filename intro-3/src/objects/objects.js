@@ -130,7 +130,17 @@ export function getTreeDepth(tree) {
 
 // Dato un tree come sopra, contare il numero di nodi "leaf", cioè quelli senza ulteriori figli (0 children)
 // Considerando l'esempio sopra, i nodi "leaf" sono 4 (C, D, E, F)
-export function countTreeLeafNodes(tree) {}
+export function countTreeLeafNodes(tree) {
+   
+    if(!tree.children || tree.children.length === 0) return 1;
+
+    let leafCount = 0;
+    tree.children.forEach(child => {
+        leafCount += countTreeLeafNodes(child);
+    });
+
+    return leafCount;
+}
 
 // Dati un oggetto e un path di tipo stringa, `get` deve restituire la proprietà al path specificato.
 // Se path contiene punti, si tratta di proprietà annidate. `get` deve funzionare anche con gli array,

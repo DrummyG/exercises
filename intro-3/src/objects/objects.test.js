@@ -348,13 +348,13 @@ describe('getTreeDepth', () => {
     expect(getTreeDepth(tree)).toEqual(5)
   })
 })
-/*
+
 describe('countTreeLeafNodes', () => {
   it('Gets the correct number of leaf nodes', () => {
     expect(countTreeLeafNodes(tree)).toEqual(14)
   })
 })
-
+/*
 describe('get', () => {
   const object = {
     name: 'Maria',
