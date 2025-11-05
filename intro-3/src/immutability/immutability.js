@@ -74,8 +74,17 @@ export const addNewUser = (users, newUser) => {
 
 // Restituire l'array di utenti con lat e lng dentro geo convertiti in numero, non stringa
 export const convertUsersGeoToNumber = (users) => {
-  console.log(users[0].address.geo);
-  return users.map(user => {
-    
+  const mapped = users.map(user => {
+    const {address, ...userWithoutAddress} = user;
+    const {geo, ...addressWithoutGeo} = address;
+    let newGeo = {
+      lat : parseFloat(geo.lat),
+      lng : parseFloat(geo.lng)
+    };
+    return {
+      ...userWithoutAddress,
+      address: {...addressWithoutGeo, geo : newGeo}
+    }
   })
+  return mapped;
 }
