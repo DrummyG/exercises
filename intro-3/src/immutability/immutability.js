@@ -26,16 +26,56 @@ export const users = Object.freeze([user10])
 
 // addressChanges è un oggetto che contiene una o più proprietà di Address da cambiare, ad esempio { city: London }
 // Restituire l'array di utenti con le proprietà cambiate, mantenendo invariate quelle non presenti in addressChanges
-export const changeUsersAddress = (users, addressChanges) => {}
+export const changeUsersAddress = (users, addressChanges) => {
+  return users.map(user => {
+    if (user.address) {
+      return {
+        ...user,
+        address: {
+          ...user.address,
+          ...addressChanges
+        }
+      };
+    }
+    return user;
+  });
+}
 
 // Restituire l'array di utenti senza geo in address
-export const removeAddressCoordinates = (users) => {}
+export const removeAddressCoordinates = (users) => {
+  
+  return users.map(user => {
+    if (user.address) {
+      const { geo, ...addressWithoutGeo } = user.address;
+      return {
+        ...user,
+        address: addressWithoutGeo
+      };
+    }
+    return user;
+  });
+}
 
 // Restituire l'array di utenti senza company
-export const removeCompanyInfo = (users) => {}
+export const removeCompanyInfo = (users) => {
+  return users.map(user => {
+    if(user.company){
+      const {company, ...userWithoutCOmpany} = user;
+      return userWithoutCOmpany
+    }
+    return user;
+  })
+}
 
 // Restituire newUser a users e restituire l'array
-export const addNewUser = (users, newUser) => {}
+export const addNewUser = (users, newUser) => {
+  return [...users, newUser];
+}
 
 // Restituire l'array di utenti con lat e lng dentro geo convertiti in numero, non stringa
-export const convertUsersGeoToNumber = (users) => {}
+export const convertUsersGeoToNumber = (users) => {
+  console.log(users[0].address.geo);
+  return users.map(user => {
+    
+  })
+}
