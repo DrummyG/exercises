@@ -155,7 +155,7 @@ describe('arrayToObject', () => {
     })
   })
 })
-/*
+
 describe('arrayToObjectDeep', () => {
   it('Converts a n-dimensional array into an object, deeply', () => {
     const array = [
@@ -188,7 +188,7 @@ describe('arrayToObjectDeep', () => {
     expect(arrayToObjectDeep(array)).toEqual(result)
   })
 })
-
+/*
 describe('hasValidProperty', () => {
   const object = {
     name: 'Jane',
