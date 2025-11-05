@@ -30,7 +30,16 @@ export function toArray(object) {
 // soltanto le chiavi i cui valori soddisfano la funzione `predicate` (a cui bisogna passare sia la chiave, sia il valore)
 // Es.: { name: 'Kate', number1: 100, number2: 40, number3: 77 } con predicate = (key, value) => key === 'name' || value > 50
 // restituisce  { name: 'Kate', number1: 100, number3: 77 }
-export function filterObject(object, predicate) {}
+export function filterObject(object, predicate) {
+    let entries = Object.entries(object);
+
+    entries = entries.filter(element => predicate(element[0], element[1]));
+    let filteredObj = {};
+    entries.forEach(element => {
+        filteredObj = setProperty(filteredObj, element);
+    })
+    return filteredObj;
+}
 
 // Data una chiave `key`, una funzione `getValue` per ottenere il valore associato a quella chiave e un oggetto `cache`,
 // `getCachedValue` deve chiamare una sola volta `getValue` e conservare il valore ottenuto, in modo che se

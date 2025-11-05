@@ -73,7 +73,7 @@ describe('toArray', () => {
     ])
   })
 })
-/*
+
 describe('filterObject', () => {
   it('Filters an object - 1', () => {
     const object = {
@@ -120,7 +120,7 @@ describe('filterObject', () => {
     })
   })
 })
-
+/*
 describe('getCachedValue', () => {
   it('Caches the value correctly', () => {
     const cache = {}
