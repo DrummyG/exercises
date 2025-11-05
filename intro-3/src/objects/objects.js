@@ -91,7 +91,20 @@ export function hasValidProperty(object, predicate) {
 // Restituire un array con i due oggetti (vedere il test per altri esempi)
 // Idealmente dovrebbe funzionare per ogni oggetto trovato dentro l'oggetto di partenza, anche quelli annidati
 export function normalizeObject(object) {
-    
+    const entries = Object.entries(object);
+    let normalized = {};
+    let objDivided = {};
+    entries.forEach(element => {
+        if(typeof(element[1]) === 'object'){
+            const [norm, div] = normalizeObject(element[1]);
+            normalized[`${element[0]}Id`] = element[1].id;
+            objDivided = { ...objDivided, ...div };
+            objDivided = { ...objDivided, ...{ [element[1].id]: norm } };
+        }else{
+            normalized[element[0]] = element[1];
+        }
+    })
+    return [normalized, objDivided];
 }
 
 // Dato un tree del tipo
