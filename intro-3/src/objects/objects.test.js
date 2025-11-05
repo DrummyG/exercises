@@ -305,7 +305,7 @@ describe('normalizeObject', () => {
     expect(normalizeObject(object)).toEqual(result)
   })
 })
-/*
+
 const tree = {
   value: 'A',
   children: [
@@ -348,7 +348,7 @@ describe('getTreeDepth', () => {
     expect(getTreeDepth(tree)).toEqual(5)
   })
 })
-
+/*
 describe('countTreeLeafNodes', () => {
   it('Gets the correct number of leaf nodes', () => {
     expect(countTreeLeafNodes(tree)).toEqual(14)
