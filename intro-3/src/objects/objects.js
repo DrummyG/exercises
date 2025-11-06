@@ -195,7 +195,6 @@ export function createGeoJSON(data) { //da implementare set e da fare refactorin
         }
         
     })
-    geoJson.features.forEach(geo => console.log(geo.geometry.coordinates));
     return geoJson;
 }
 
@@ -205,7 +204,25 @@ export function createGeoJSON(data) { //da implementare set e da fare refactorin
 // hanno `highlighted: true` all'interno dell'oggetto `properties`. Se il punto non interseca nulla, restituire null.
 // Per vedere i dati in input e il risultato finale, fare riferimento ai test.
 // NOTA: usare booleanIntersects (https://turfjs.org/docs/api/booleanIntersects) per controllare se una geometria ne interseca un'altra.
-export function highlightActiveFeatures(geoJSON, point) {}
+export function highlightActiveFeatures(geoJSON, point) { //da fare refactoring codice
+    const createJson = (type, c) => {
+        if(type === 'point')return {type: 'Feature', geometry : {type: 'Point' , coordinates : c}}
+        if(type === 'line') return {type: 'Feature', geometry : {type: 'LineString' , coordinates : c}}
+    }
+    const p = createJson('point', point);
+    const intersections = geoJSON.map(geo => {
+        const g = createJson(geo[0], geo[1]);
+        return booleanIntersects(g, p);
+    })
+    if(intersections.find(element => element === true)){
+        return {features: geoJSON.map((geo, index) => {
+            const g = createJson(geo[0], geo[1]);
+            if(intersections[index] === true) g.properties = {highlighted: true};
+            return g;
+        }), type: 'FeatureCollection'}
+    }
+    return null;
+}
 
 // Data una stringa in formato VTT contentente una lista di sottotitoli associati a un istante temporale (inizio --> fine), es.:
 //

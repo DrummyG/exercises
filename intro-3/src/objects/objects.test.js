@@ -422,7 +422,7 @@ describe('createGeoJSON', () => {
     expect(createGeoJSON(input)).toEqual(geoJSON)
   })
 })
-/*
+
 describe('highlightActiveFeatures', () => {
   const input = [
     ['point', [2, 1]],
@@ -503,7 +503,7 @@ describe('highlightActiveFeatures', () => {
     expect(highlightActiveFeatures(input, [4, 3])).toEqual(expected)
   })
 })
-
+/*
 describe('getLineFromVTT', () => {
   const vtt = `
 WEBVTT FILE
