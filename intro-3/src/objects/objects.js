@@ -165,7 +165,7 @@ export function get(object, path, fallback) {
 // su strade e punti di interesse, generare un oggetto GeoJSON (RFC 7946) valido.
 // NOTA: per avere un'idea dell'input vedere il test corrispondente,
 // per il GeoJSON finale da generare vedere il file `mock.js`.
-export function createGeoJSON(data) {
+export function createGeoJSON(data) { //da implementare set e da fare refactoring del codice, ma funzionante per ora
     const array = Object.entries(data);
     let geoJson = {
         type : 'FeatureCollection',
@@ -175,29 +175,28 @@ export function createGeoJSON(data) {
         let geometryData, propertiesData;
         if(element[0] === 'pointsOfInterest'){
             element[1].forEach(place => {
-                geometryData = {type : 'Point', coordinates : Object.values(place.coordinates)};
+                const swapper = Object.values(place.coordinates);
+                geometryData = {type : 'Point', coordinates : [swapper[1], swapper[0]]};
                 propertiesData = {name : place.name};
+                geoJson.features.push({type: 'Feature', geometry: geometryData, properties : propertiesData})
             })
         }else{
-            console.log(element)
             element[1].forEach(place=> {
-                const coordinate = JSON.parse(JSON.stringify(place.polyline));
-                console.log(coordinate);
+                const coordinate = JSON.parse(place.polyline);
                 let parsing = [];
                 coordinate.forEach(c => {
-
+                    if(parsing.find(element => element[0] === c.start.lng && element[1] === c.start.lat) === undefined) parsing.push([c.start.lng, c.start.lat]);
+                    if(parsing.find(element => element[0] === c.end.lng && element[1] === c.end.lat) === undefined) parsing.push([c.end.lng, c.end.lat])
                 })
-                geometryData = {type : 'LineString', coordinates : []};
-                propertiesData = {...place.extraProps, name : place.name};
+                geometryData = {type : 'LineString', coordinates : parsing};
+                propertiesData = {lanes: place.extraProps.lane, name : place.name};
+                geoJson.features.push({type: 'Feature', geometry: geometryData, properties : propertiesData})
             })
         }
-        geoJson.features.push({type: 'Feature', geometry: geometryData, properties : propertiesData})
         
     })
-    geoJson.features.forEach(geo => console.log('elemento singolo' + geo));
-    console.log(geoJson);
+    geoJson.features.forEach(geo => console.log(geo.geometry.coordinates));
     return geoJson;
-
 }
 
 // Dati un array contentente le coordinate [lng, lat] di alcune geometrie (linee e punti),
