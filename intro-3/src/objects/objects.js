@@ -237,4 +237,22 @@ export function highlightActiveFeatures(geoJSON, point) { //da fare refactoring 
 // restituire la riga corretta in base a `time`.
 // Ad esempio, quando time è '00:07.988' la funzione deve restituire 'It will perforate your stomach. You could die.'
 // Restituire null se non ci sono sottotitoli per il time specificato. Tornando all'esempio di sopra, '00:37.430' restituisce null.
-export function getLineFromVTT(vtt, time) {}
+export function getLineFromVTT(vtt, time) { //da fare refactoring
+    let divide = vtt.split('\n')
+    divide = divide.filter((strg) => (strg.length !== 0 && !(strg.includes('WEBVTT'))))
+    const vttObj = [];
+
+    for(let i = 0; i < divide.length; i+=2){
+        vttObj[i] = {};
+        vttObj[i].start = divide[i].substr(0, 9);
+        vttObj[i].end = divide[i].substr(divide[i].length - 9, divide[i].length);
+        vttObj[i].phrase = divide[i + 1];
+    }
+
+    for(let i = 0; i < divide.length; i+=2){
+        if(vttObj[i].start <= time && vttObj[i].end >= time){
+            return vttObj[i].phrase;
+        }
+    }
+    return null;
+}

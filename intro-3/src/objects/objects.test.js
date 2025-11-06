@@ -503,7 +503,7 @@ describe('highlightActiveFeatures', () => {
     expect(highlightActiveFeatures(input, [4, 3])).toEqual(expected)
   })
 })
-/*
+
 describe('getLineFromVTT', () => {
   const vtt = `
 WEBVTT FILE
@@ -550,4 +550,3 @@ Goodbye!
     expect(getLineFromVTT(vtt, '01:32.034')).toBeNull()
   })
 })
-*/
